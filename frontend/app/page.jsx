@@ -8,9 +8,6 @@ import { ArrowRight, Clock, Flame, Star, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-
-
-
 export default async function Home() {
   const {has} = await auth();
   const subscriptionTier = has({plan:"pro"}) ? "pro" : "free";
