@@ -1,13 +1,15 @@
 "use client"
 
-import { getMealsByCategory } from "@/actions/mealdb.actions";
+
+
+import { getMealsByArea } from "@/actions/mealdb.actions";
 import RecipeGrid from "@/components/RecipeGrid";
 import {useParams} from "next/navigation"
 
 
 export default function CuisineRecipesPage() {
     const params = useParams();
-    const category = params.category;
+    const cuisine = params.cuisine;
     
     return (
         <RecipeGrid

@@ -1,5 +1,8 @@
+"use server"
+
 import { freePantryScans, proTierLimit } from "@/lib/arcjet";
 import { checkUser } from "@/lib/checkUser";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
