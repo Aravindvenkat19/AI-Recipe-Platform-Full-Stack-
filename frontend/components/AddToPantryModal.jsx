@@ -15,7 +15,7 @@ const AddToPantryModal = ({isOpen, onClose, onSuccess}) => {
    const [activeTab, setActiveTab] = useState("scan");
    const [selectedImage, setSelectedImage] = useState(null);
    const [scannedIngredients, setScannedIngredients] = useState([]);
-   const [manualItem, setManuelItem] = useState({name:"", quantity:""}); 
+   const [manualItem, setManualItem] = useState({name:"", quantity:""}); 
 
    //Scan Image
    const {
@@ -50,7 +50,7 @@ const AddToPantryModal = ({isOpen, onClose, onSuccess}) => {
    useEffect(()=> {
      if (addData?.success) {
       toast.success("Item added to pantry!");
-      setManuelItem({ name: "", quantity: "" });
+      setManualItem({ name: "", quantity: "" });
       handleClose();
        if (onSuccess) onSuccess();
      }
@@ -60,7 +60,7 @@ const AddToPantryModal = ({isOpen, onClose, onSuccess}) => {
         setActiveTab("scan");
         setSelectedImage(null);
         setScannedIngredients([]);
-        setManuelItem({ name:"", quantity:""});
+        setManualItem({ name:"", quantity:""});
         onClose();
     };
 
@@ -264,7 +264,7 @@ const AddToPantryModal = ({isOpen, onClose, onSuccess}) => {
                        type="text"
                        value={manualItem.name}
                        onChange={(e) => 
-                        setManuelItem({ ...manualItem, name: e.target.value })
+                        setManualItem({ ...manualItem, name: e.target.value })
                        } 
                        placeholder="e.g., Chicken breast"
                        className="w-full px-4 py-3 border-stone-200 rounded-xl focus:outline-none
@@ -281,10 +281,10 @@ const AddToPantryModal = ({isOpen, onClose, onSuccess}) => {
                      type="text"
                      value={manualItem.quantity}
                      onChange={(e) => 
-                       setManuelItem({ ...manualItem, quantity: e.target.value })
+                       setManualItem({ ...manualItem, quantity: e.target.value })
                      } 
                      placeholder="e.g., 500g, 2 cups, 3 pieces"
-                     className="w-full px-4 py-3 border-stone-200 rounded-xl focus:outline-none
+                     className="w-full px-4 py-3 border border-stone-200 rounded-xl focus:outline-none
                      focus:ring-2 focus:ring-orange-500"
                      disabled={adding}
                     />
@@ -308,7 +308,6 @@ const AddToPantryModal = ({isOpen, onClose, onSuccess}) => {
                     </>
                   )}
                  </Button>
-
                </form>
               </TabsContent>
             </Tabs>

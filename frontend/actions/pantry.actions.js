@@ -2,6 +2,7 @@
 
 import { freePantryScans, proTierLimit } from "@/lib/arcjet";
 import { checkUser } from "@/lib/checkUser";
+import { request } from "@arcjet/next";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const STRAPI_URL =
@@ -80,7 +81,7 @@ export async function scanPantryImage(formData) {
     const result = await model.generateContent([
       prompt,
       {
-        inilineData: {
+        inlineData: {
           mimeType: imageFile.type,
           data: base64Image,
         },
