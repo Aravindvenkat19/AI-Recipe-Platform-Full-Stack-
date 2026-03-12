@@ -23,6 +23,7 @@ import {
   Lightbulb,
   Loader2,
   Users,
+  ChefHat,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -165,6 +166,18 @@ function RecipeContent() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Master Safety Check: If data hasn't arrived or fetch failed, stop here.
+  if (!recipe) {
+    return (
+      <div className="min-h-screen bg-stone-50 pt-24 pb-16">
+        <div className="container mx-auto max-w-4xl text-center py-20">
+          <Loader2 className="w-10 h-10 text-orange-600 animate-spin mx-auto mb-4" />
+          <p className="text-stone-600">Finalizing recipe details...</p>
         </div>
       </div>
     );
@@ -314,23 +327,23 @@ function RecipeContent() {
 
               {/* PDF Download Button */}
               <PDFDownloadLink
-                document={<RecipePDF recipe={recipe}/>}
+                document={<RecipePDF recipe={recipe} />}
                 fileName={`${recipe.title
-                    .replace(/s+/g,"-")
-                    .toLowerCase()}.pdf`}
+                  .replace(/s+/g, "-")
+                  .toLowerCase()}.pdf`}
               >
                 {({ loading }) => (
-                    <Button
-                      variant="outline"
-                      className="border-2 border-orange-600 text-orange-700 
+                  <Button
+                    variant="outline"
+                    className="border-2 border-orange-600 text-orange-700 
                       hover:bg-orange-50 gap-2"
-                      disabled={loading}
-                    >
-                       <Download className="w-4 h-4" />
-                       {loading ? "Preparing PDF..." : "Download PDF"}  
-                    </Button>
+                    disabled={loading}
+                  >
+                    <Download className="w-4 h-4" />
+                    {loading ? "Preparing PDF..." : "Download PDF"}
+                  </Button>
                 )}
-              </PDFDownloadLink> 
+              </PDFDownloadLink>
             </div>
           </div>
         </div>
@@ -507,7 +520,7 @@ function RecipeContent() {
 
                 <ProLockedSection
                   isPro={recipeData.isPro}
-                  lockedText="Chef tips are Pro-only"
+                  lockText="Chef tips are Pro-only"
                   ctaText="Unlock Pro Tips ->"
                 >
                   <ul className="space-y-3">

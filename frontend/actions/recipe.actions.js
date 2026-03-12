@@ -197,6 +197,8 @@ export async function getOrGenerateRecipe(formData) {
         throw new Error("Recipe name is required");
       }
 
+      const isPro = user.subscriptionTier === "pro";
+
       //Normalize the title (e.g., "apple cake" -> "Apple Cake")
       const normalizedTitle = normalizeTitle(recipeName);
 
@@ -323,12 +325,82 @@ Guidelines:
     const response = await result.response;
     const text = response.text();
 
+    // Parse JSON Response
+    let recipeData ;
+    try {
+        const cleantext = text
+            .replace(/```json\n?/g, "")
+            .replace(/```\n?/g, "")
+            .trim();
+        recipeData = JSON.parse(cleantext);    
+    } catch (parseError) {
+        console.error("Failed to parse Gemini response:", text);
+        throw new Error("Failed to generate recipe. Please try again.");
+    }
+
+    // FORCE the title to be our normalized version
+    recipeData.title = normalizedTitle;
+
+    const category = recipeData.category.toLowerCase();
+
+    const cuisine = recipeData.cuisine.toLowerCase();
 
       // Step 3: Fetch image from Unsplash
+      const imageUrl = await fetchRecipeImage(normalizedTitle);
 
       // Step 4: Save generated recipe to database
+    const strapiRecipeData = {
+        data: {
+            title: normalizedTitle,
+            description: recipeData.description,
+            cuisine,
+            category,
+            ingredients: recipeData.ingredients,
+            instructions: recipeData.instructions,
+            prepTime: Number(recipeData.prepTime),
+            cookTime: Number(recipeData.cookTime),
+            servings: Number(recipeData.servings),
+            nutrition: recipeData.nutrition,
+            tips: recipeData.tips,
+            substitutions: recipeData.substitutions,
+            imageUrl : imageUrl || "",
+            isPublic: true,
+            author: user.id,
+        },
+    };
 
-      
+    const createdRecipeResponse = await fetch(`${STRAPI_URL}/api/recipes`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${STRAPI_API_TOKEN}`,
+        },
+        body: JSON.stringify(strapiRecipeData),
+    });
+
+    if (!createdRecipeResponse.ok) {
+        const errorText = await createdRecipeResponse.text();
+        console.error("Failed to save recipe:", errorText);
+        throw new Error("Failed to save recipe to database");
+    }
+
+    const createdRecipe = await createdRecipeResponse.json();
+
+    return {
+        success: true,
+        recipe: {
+            ...recipeData,
+            title: normalizedTitle,
+            category,
+            cuisine,
+            imageUrl: imageUrl || "",
+        },
+        recipeId: createdRecipe.data.id,
+        isSaved: false,
+        fromDatabase: false,
+        recommendationsLimit : isPro ? "unlimited" : 5,
+        message: "Recipe generated and saved successfully"
+    };
     } catch (error) {
         console.error("Error in getOrGenerateRecipe:", error);
         throw new Error(error.message || "Failed to load recipe");
