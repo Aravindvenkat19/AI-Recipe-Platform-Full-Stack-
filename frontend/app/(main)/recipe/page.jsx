@@ -69,7 +69,7 @@ function RecipeContent() {
         toast.info("Recipe is already in your collection");
       } else {
         setIsSaved(true);
-        toast.success("Recipe saved to yor collection!");
+        toast.success("Recipe saved to your collection!");
       }
     }
   }, [saveData]);
