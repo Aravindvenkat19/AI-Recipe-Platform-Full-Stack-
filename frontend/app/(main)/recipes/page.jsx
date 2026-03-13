@@ -19,7 +19,9 @@ const SavedRecipespage = () => {
      fetchSavedRecipes();
   },[]);
 
-  const recipes = recipesData?.recipes || []
+  const recipes = recipesData?.recipes || [];
+
+  console.log("Recipes in State:", recipes);
 
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16 px-4">
@@ -50,7 +52,7 @@ const SavedRecipespage = () => {
              <div className="grid md:grid-cols-2 gap-6">
                 {recipes.map((recipe) => (
                     <RecipeCard
-                      key={recipe.documentId}
+                      key={recipe.id || recipe.documentId}
                       recipe={recipe}
                       variant="list"
                     />

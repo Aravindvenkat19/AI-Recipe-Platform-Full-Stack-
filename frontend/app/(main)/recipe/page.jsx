@@ -62,39 +62,6 @@ function RecipeContent() {
     fn: removeFromCollection,
   } = useFetch(removeRecipeFromCollection);
 
-  // Handle Save Success
-  useEffect(() => {
-    if (saveData?.success) {
-      if (saveData.alreadySaved) {
-        toast.info("Recipe is already in your collection");
-      } else {
-        setIsSaved(true);
-        toast.success("Recipe saved to your collection!");
-      }
-    }
-  }, [saveData]);
-
-  // Handle Remove Success
-  useEffect(() => {
-    if (removeData?.success) {
-      setIsSaved(false);
-      toast.success("Recipe removed from collection");
-    }
-  }, [removeData]);
-
-  const handleToggleSave = async () => {
-    if (!recipeId) return;
-
-    const formData = new FormData();
-    formData.append("recipeId", recipeId);
-
-    if (isSaved) {
-      await removeFromCollection(formData);
-    } else {
-      await saveToCollection(formData);
-    }
-  };
-
   // Fetch recipe on mount
   useEffect(() => {
     if (recipeName && !recipe) {
@@ -118,6 +85,40 @@ function RecipeContent() {
       }
     }
   }, [recipeData]);
+
+  // Handle Save Success
+  useEffect(() => {
+    if (saveData?.success) {
+      if (saveData.alreadySaved) {
+        toast.info("Recipe is already in your collection");
+      } else {
+        setIsSaved(true);
+        toast.success("Recipe saved to your collection!");
+      }
+    }
+  }, [saveData]);
+
+  // Handle Remove Success
+  useEffect(() => {
+    if (removeData?.success) {
+      setIsSaved(false);
+      toast.success("Recipe removed from collection");
+    }
+  }, [removeData]);
+
+   // Toggle save/unsave
+   const handleToggleSave = async () => {
+    if (!recipeId) return;
+
+    const formData = new FormData();
+    formData.append("recipeId", recipeId);
+
+    if (isSaved) {
+      await removeFromCollection(formData);
+    } else {
+      await saveToCollection(formData);
+    }
+  };
 
   // No recipe name in URL
   if (!recipeName) {

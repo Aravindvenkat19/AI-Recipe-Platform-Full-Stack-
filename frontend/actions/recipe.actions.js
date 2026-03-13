@@ -399,6 +399,7 @@ Guidelines:
         isSaved: false,
         fromDatabase: false,
         recommendationsLimit : isPro ? "unlimited" : 5,
+        isPro,
         message: "Recipe generated and saved successfully"
     };
     } catch (error) {
@@ -459,7 +460,7 @@ export async function saveRecipeToCollection(formData) {
             }),
         });
 
-        if (!saveResponse) {
+        if (!saveResponse.ok) {
            const errorText = await saveResponse.text();
            console.error("Failed to save recipe:", errorText);
            throw new Error("Failed to save recipe to collection");
@@ -546,7 +547,7 @@ export async function removeRecipeFromCollection(formData) {
 // Get user's saved recipes
 export async function getSavedRecipes() {
   try {
-   
+    const user = await checkUser();
     if (!user) {
        throw new Error("User not authenticated");
     } 
