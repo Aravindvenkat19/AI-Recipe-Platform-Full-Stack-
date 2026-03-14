@@ -421,8 +421,7 @@ export async function saveRecipeToCollection(formData) {
 
     // Check if already saved
     const existingResponse = await fetch(
-      `${STRAPI_URL}/api/saved-recipes?filters[user][documentId][$eq]=${user.documentId}
-       &filters[recipe][documentId][$eq]=${recipeDocumentId}`,
+      `${STRAPI_URL}/api/saved-recipes?filters[user][documentId][$eq]=${user.documentId}&filters[recipe][documentId][$eq]=${recipeDocumentId}`,
       {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
@@ -492,14 +491,14 @@ export async function removeRecipeFromCollection(formData) {
       throw new Error("User not authenticated");
     }
 
-    const recipeId = formData.get("recipeId");
-    if (!recipeId) {
+    const recipeDocumentId = formData.get("recipeDocumentId");
+    if (!recipeDocumentId) {
       throw new Error("Recipe ID is required");
     }
 
     // Find saved recipe relation
     const searchResponse = await fetch(
-      `${STRAPI_URL}/api/saved-recipes?filters[user][id][$eq]=${user.id}&filters[recipe][id][$eq]=${recipeId}`,
+      `${STRAPI_URL}/api/saved-recipes?filters[user][documentId][$eq]=${user.documentId}&filters[recipe][documentId][$eq]=${recipeDocumentId}`,
       {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
