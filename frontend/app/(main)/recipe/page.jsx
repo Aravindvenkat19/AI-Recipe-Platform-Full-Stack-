@@ -111,7 +111,7 @@ function RecipeContent() {
     if (!recipeId) return;
 
     const formData = new FormData();
-    formData.append("recipeId", recipeId);
+    formData.append("recipeDocumentId", recipe.documentId);
 
     if (isSaved) {
       await removeFromCollection(formData);

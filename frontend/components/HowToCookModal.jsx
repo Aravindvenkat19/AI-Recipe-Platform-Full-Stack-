@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { ChefHat, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const HowToCookModal = () => {
   const router = useRouter();
