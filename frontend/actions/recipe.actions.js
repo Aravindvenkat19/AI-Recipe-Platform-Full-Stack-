@@ -415,6 +415,7 @@ export async function saveRecipeToCollection(formData) {
 
     const recipeId = formData.get("recipeDocumentId");
     if (!recipeId) {
+      console.error("Missing recipeDocumentId");
       throw new Error("Recipe ID is required");
     }
 
