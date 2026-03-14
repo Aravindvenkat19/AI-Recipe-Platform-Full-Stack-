@@ -413,8 +413,8 @@ export async function saveRecipeToCollection(formData) {
       throw new Error("User not authenticated");
     }
 
-    const recipeId = formData.get("recipeDocumentId");
-    if (!recipeId) {
+    const recipeDocumentId = formData.get("recipeDocumentId");
+    if (!recipeDocumentId) {
       console.error("Missing recipeDocumentId");
       throw new Error("Recipe ID is required");
     }
@@ -422,7 +422,7 @@ export async function saveRecipeToCollection(formData) {
     // Check if already saved
     const existingResponse = await fetch(
       `${STRAPI_URL}/api/saved-recipes?filters[user][documentId][$eq]=${user.documentId}
-       &filters[recipe][documentId][$eq]=${recipeId}`,
+       &filters[recipe][documentId][$eq]=${recipeDocumentId}`,
       {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
@@ -455,7 +455,7 @@ export async function saveRecipeToCollection(formData) {
             connect: [{ documentId: user.documentId }],
           },
           recipe: {
-            connect: [{ documentId: recipeId }],
+            connect: [{ documentId: recipeDocumentId }],
           },
           savedAt: new Date().toISOString(),
         },
@@ -469,6 +469,8 @@ export async function saveRecipeToCollection(formData) {
     }
 
     const savedRecipe = await saveResponse.json();
+
+    console.log("Received recipeDocumentId:", recipeDocumentId); 
 
     return {
       success: true,

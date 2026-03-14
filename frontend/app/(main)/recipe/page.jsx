@@ -120,6 +120,8 @@ function RecipeContent() {
     }
   };
 
+  console.log("Recipe docId:", recipe.documentId);
+
   // No recipe name in URL
   if (!recipeName) {
     return (
