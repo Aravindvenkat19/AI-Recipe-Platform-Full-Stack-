@@ -38,7 +38,6 @@ function RecipeContent() {
   const router = useRouter();
 
   const [recipe, setRecipe] = useState(null);
-  const [recipeId, setRecipeId] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
 
   // Get or generate recipe
@@ -75,7 +74,6 @@ function RecipeContent() {
   useEffect(() => {
     if (recipeData?.success) {
       setRecipe(recipeData.recipe);
-      setRecipeId(recipeData.recipeId);
       setIsSaved(recipeData.isSaved);
 
       if (recipeData.fromDatabase) {
@@ -306,7 +304,7 @@ function RecipeContent() {
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={handleToggleSave}
-                disabled={saving || removing}
+                disabled={saving || removing || !recipe?.documentId} // change 2
                 className={`${
                   isSaved
                     ? "bg-green-600 hover:bg-green-700 border-2 border-green-700"

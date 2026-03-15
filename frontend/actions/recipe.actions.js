@@ -236,8 +236,11 @@ export async function getOrGenerateRecipe(formData) {
 
         return {
           success: true,
-          recipe: searchData.data[0],
-          recipeId: searchData.data[0].id,
+          recipe: {  // Changed
+            ...searchData.data[0],
+            documentId: searchData.data[0].documentId,
+            id: searchData.data[0].id,
+          },
           isSaved: isSaved,
           fromDatabase: true,
           message: "Recipe loaded from database",
@@ -391,8 +394,9 @@ Guidelines:
         category,
         cuisine,
         imageUrl: imageUrl || "",
+        documentId: createdRecipe.data.documentId, // ✅ important
+        id: createdRecipe.data.id, // optional but good
       },
-      recipeId: createdRecipe.data.id,
       isSaved: false,
       fromDatabase: false,
       recommendationsLimit: isPro ? "unlimited" : 5,
@@ -469,7 +473,7 @@ export async function saveRecipeToCollection(formData) {
 
     const savedRecipe = await saveResponse.json();
 
-    console.log("Received recipeDocumentId:", recipeDocumentId); 
+    console.log("Received recipeDocumentId:", recipeDocumentId);
 
     return {
       success: true,
