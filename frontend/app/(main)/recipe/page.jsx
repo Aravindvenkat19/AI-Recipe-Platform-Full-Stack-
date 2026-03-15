@@ -38,7 +38,6 @@ function RecipeContent() {
   const router = useRouter();
 
   const [recipe, setRecipe] = useState(null);
-  const [recipeId, setRecipeId] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
 
   // Get or generate recipe
@@ -75,7 +74,6 @@ function RecipeContent() {
   useEffect(() => {
     if (recipeData?.success) {
       setRecipe(recipeData.recipe);
-      setRecipeId(recipeData.recipeId);
       setIsSaved(recipeData.isSaved);
 
       if (recipeData.fromDatabase) {
