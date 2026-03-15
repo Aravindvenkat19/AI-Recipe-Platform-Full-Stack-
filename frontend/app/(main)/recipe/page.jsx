@@ -304,7 +304,7 @@ function RecipeContent() {
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={handleToggleSave}
-                disabled={saving || removing || !recipe?.documentId} // change 2
+                disabled={saving || removing || !recipe?.documentId} 
                 className={`${
                   isSaved
                     ? "bg-green-600 hover:bg-green-700 border-2 border-green-700"

@@ -236,7 +236,7 @@ export async function getOrGenerateRecipe(formData) {
 
         return {
           success: true,
-          recipe: {  // Changed
+          recipe: { 
             ...searchData.data[0],
             documentId: searchData.data[0].documentId,
             id: searchData.data[0].id,
@@ -394,8 +394,8 @@ Guidelines:
         category,
         cuisine,
         imageUrl: imageUrl || "",
-        documentId: createdRecipe.data.documentId, // ✅ important
-        id: createdRecipe.data.id, // optional but good
+        documentId: createdRecipe.data.documentId, 
+        id: createdRecipe.data.id, 
       },
       isSaved: false,
       fromDatabase: false,
